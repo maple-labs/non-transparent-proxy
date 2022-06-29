@@ -25,15 +25,16 @@ contract NTPTestBase is TestUtils {
 contract NTPConstructorTests is NTPTestBase {
 
     function test_constructor() external {
-        NonTransparentProxy proxy = new NonTransparentProxy(ADMIN, address(implementation));
+        address proxy = address(new NonTransparentProxy(ADMIN, address(implementation)));
 
-        address adminStorage          = address(uint160(uint256(vm.load(address(proxy), ADMIN_SLOT))));
-        address implementationStorage = address(uint160(uint256(vm.load(address(proxy), IMPLEMENTATION_SLOT))));
+        address adminStorage          = address(uint160(uint256(vm.load(proxy, ADMIN_SLOT))));
+        address implementationStorage = address(uint160(uint256(vm.load(proxy, IMPLEMENTATION_SLOT))));
 
         assertEq(adminStorage,          ADMIN);
         assertEq(implementationStorage, address(implementation));
 
-        // TODO: View functions on implementation
+        assertEq(NonTransparentProxied(proxy).admin(),          ADMIN);
+        assertEq(NonTransparentProxied(proxy).implementation(), address(implementation));
     }
 
 }
@@ -50,7 +51,7 @@ contract NTPSetImplementationFailureTests is NTPTestBase {
     function test_setImplementation_notAdmin() external {
         vm.startPrank(NOT_ADMIN);
         vm.expectRevert("NTP:SI:NOT_ADMIN");
-        proxy.setImplementation(address(10));
+        proxy.setImplementation(address(1));
     }
 
 }
