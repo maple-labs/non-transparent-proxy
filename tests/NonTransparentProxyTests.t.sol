@@ -56,7 +56,7 @@ contract NTPSetImplementationFailureTests is NTPTestBase {
 
 }
 
-contract NTPSetImplementatinSuccessTests is NTPTestBase {
+contract NTPSetImplementationSuccessTests is NTPTestBase {
 
     NonTransparentProxy proxy;
 
