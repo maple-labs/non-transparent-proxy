@@ -65,7 +65,7 @@ contract NTPSetImplementationSuccessTests is NTPTestBase {
         proxy = new NonTransparentProxy(ADMIN, address(implementation));
     }
 
-    function test_setImplementation_notAdmin() external {
+    function test_setImplementation() external {
         address implementationStorage = address(uint160(uint256(vm.load(address(proxy), IMPLEMENTATION_SLOT))));
 
         assertEq(implementationStorage, address(implementation));
