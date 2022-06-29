@@ -1,0 +1,6 @@
+# Forge
+cache/
+out/
+
+# MacOS
+.DS_Store
