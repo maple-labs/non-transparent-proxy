@@ -56,26 +56,33 @@ contract NTPSetImplementationFailureTests is NTPTestBase {
 
 }
 
-contract NTPSetImplementatinSuccessTests is NTPTestBase {
+contract NTPSetImplementationSuccessTests is NTPTestBase {
 
-    NonTransparentProxy proxy;
+    NonTransparentProxied newImplementation;
+    NonTransparentProxied proxied;
+    NonTransparentProxy   proxy;
 
     function setUp() public override virtual {
         super.setUp();
-        proxy = new NonTransparentProxy(ADMIN, address(implementation));
+
+        newImplementation = new NonTransparentProxied();
+        proxy             = new NonTransparentProxy(ADMIN, address(implementation));
+        proxied           = NonTransparentProxied(address(proxy));
     }
 
-    function test_setImplementation_notAdmin() external {
+    function test_setImplementation() external {
         address implementationStorage = address(uint160(uint256(vm.load(address(proxy), IMPLEMENTATION_SLOT))));
 
-        assertEq(implementationStorage, address(implementation));
+        assertEq(implementationStorage,    address(implementation));
+        assertEq(proxied.implementation(), address(implementation));
 
         vm.startPrank(ADMIN);
-        proxy.setImplementation(address(1));
+        proxy.setImplementation(address(newImplementation));
 
         implementationStorage = address(uint160(uint256(vm.load(address(proxy), IMPLEMENTATION_SLOT))));
 
-        assertEq(implementationStorage, address(1));
+        assertEq(implementationStorage,    address(newImplementation));
+        assertEq(proxied.implementation(), address(newImplementation));
     }
 
 }
