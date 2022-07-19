@@ -5,8 +5,8 @@ import { INonTransparentProxied } from "./interfaces/INonTransparentProxied.sol"
 
 contract NonTransparentProxied is INonTransparentProxied {
 
-    bytes32 private constant ADMIN_SLOT          = bytes32(uint256(keccak256("eip1967.proxy.admin"))          - 1);
-    bytes32 private constant IMPLEMENTATION_SLOT = bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
+    bytes32 internal constant ADMIN_SLOT          = bytes32(uint256(keccak256("eip1967.proxy.admin"))          - 1);
+    bytes32 internal constant IMPLEMENTATION_SLOT = bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
 
     function admin() public view override returns (address admin_) {
         admin_ = _getAddress(ADMIN_SLOT);
