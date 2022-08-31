@@ -1,8 +1,9 @@
-name: REPOSITORY
-version: 1.0.0
+name: non-transparent-proxy
+version: 1.0.0-beta.0
 source: contracts
 packages:
-  - path: contracts/SampleContract.sol
-    contractName: SammpleContract
-    customChecksum: 0x0000000000000000000000000000000000000000000000000000000000000000
-customDescription: Sample Artifacts and ABIs
+  - path: contracts/NonTransparentProxied.sol
+    contractName: NonTransparentProxied
+  - path: contracts/NonTransparentProxy.sol
+    contractName: NonTransparentProxy
+customDescription: NonTransparentProxy Artifacts and ABIs
