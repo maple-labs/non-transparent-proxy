@@ -1,8 +1,7 @@
-name: Forge Tests
+name: Forge Tests (PR)
 
 on:
-  push:
-    branches: [main]
+  pull_request:
 
 jobs:
   test:

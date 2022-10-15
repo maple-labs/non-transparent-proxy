@@ -10,8 +10,5 @@ build:
 release:
 	@scripts/release.sh
 
-test:
-	@scripts/test.sh
-
 clean:
 	@forge clean
