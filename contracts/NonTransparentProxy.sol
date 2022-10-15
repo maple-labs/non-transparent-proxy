@@ -54,7 +54,7 @@ contract NonTransparentProxy is INonTransparentProxy {
     /*** Fallback Function                                                                                                      ***/
     /******************************************************************************************************************************/
 
-    fallback() payable external {
+    fallback() external {
         address implementation_ = _implementation();
 
         require(implementation_.code.length != 0, "NTP:F:NO_CODE_ON_IMPLEMENTATION");
