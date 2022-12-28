@@ -1,20 +1,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.7;
 
+import { Address, TestUtils } from "../modules/contract-test-utils/contracts/test.sol";
+
 import { NonTransparentProxied } from "../contracts/NonTransparentProxied.sol";
 import { NonTransparentProxy }   from "../contracts/NonTransparentProxy.sol";
 
-import { TestUtils } from "../modules/contract-test-utils/contracts/test.sol";
-
 contract NTPTestBase is TestUtils {
 
-    address constant ADMIN     = address(1);
-    address constant NOT_ADMIN = address(2);
+    bytes32 internal constant ADMIN_SLOT          = bytes32(uint256(keccak256("eip1967.proxy.admin"))          - 1);
+    bytes32 internal constant IMPLEMENTATION_SLOT = bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
 
-    bytes32 constant ADMIN_SLOT          = bytes32(uint256(keccak256("eip1967.proxy.admin"))          - 1);
-    bytes32 constant IMPLEMENTATION_SLOT = bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
+    address internal ADMIN     = address(new Address());
+    address internal NOT_ADMIN = address(new Address());
 
-    NonTransparentProxied implementation;
+    NonTransparentProxied internal implementation;
 
     function setUp() public virtual {
         implementation = new NonTransparentProxied();
@@ -41,7 +41,7 @@ contract NTPConstructorTests is NTPTestBase {
 
 contract NTPSetImplementationFailureTests is NTPTestBase {
 
-    NonTransparentProxy proxy;
+    NonTransparentProxy internal proxy;
 
     function setUp() public override virtual {
         super.setUp();
@@ -58,9 +58,9 @@ contract NTPSetImplementationFailureTests is NTPTestBase {
 
 contract NTPSetImplementationSuccessTests is NTPTestBase {
 
-    NonTransparentProxied newImplementation;
-    NonTransparentProxied proxied;
-    NonTransparentProxy   proxy;
+    NonTransparentProxied internal newImplementation;
+    NonTransparentProxied internal proxied;
+    NonTransparentProxy   internal proxy;
 
     function setUp() public override virtual {
         super.setUp();
