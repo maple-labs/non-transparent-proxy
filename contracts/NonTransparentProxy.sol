@@ -19,7 +19,7 @@ contract NonTransparentProxy is INonTransparentProxy {
 
     function setImplementation(address newImplementation_) override virtual external {
         require(msg.sender == _admin(), "NTP:SI:NOT_ADMIN");
-        _setAddress(IMPLEMENTATION_SLOT, newImplementation_);
+        _setImplementation(newImplementation_);
     }
 
     /**************************************************************************************************************************************/
@@ -38,10 +38,14 @@ contract NonTransparentProxy is INonTransparentProxy {
     /*** Utility Functions                                                                                                              ***/
     /**************************************************************************************************************************************/
 
-    function _setAddress(bytes32 slot_, address value_) internal {
+    function _setAddress(bytes32 slot_, address value_) private {
         assembly {
             sstore(slot_, value_)
         }
+    }
+
+    function _setImplementation(address implementation_) internal {
+        _setAddress(IMPLEMENTATION_SLOT, implementation_);
     }
 
     function _getAddress(bytes32 slot_) private view returns (address value_) {
