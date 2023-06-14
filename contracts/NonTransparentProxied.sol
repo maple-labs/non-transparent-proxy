@@ -16,7 +16,7 @@ contract NonTransparentProxied is INonTransparentProxied {
         implementation_ = _getAddress(IMPLEMENTATION_SLOT);
     }
 
-    function _getAddress(bytes32 slot_) private view returns (address value_) {
+    function _getAddress(bytes32 slot_) internal view returns (address value_) {
         assembly {
             value_ := sload(slot_)
         }
