@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-pragma solidity 0.8.7;
+pragma solidity ^0.8.7;
 
 import { INonTransparentProxy } from "./interfaces/INonTransparentProxy.sol";
 
@@ -17,7 +17,7 @@ contract NonTransparentProxy is INonTransparentProxy {
     /*** Admin Functions                                                                                                                ***/
     /**************************************************************************************************************************************/
 
-    function setImplementation(address newImplementation_) override external {
+    function setImplementation(address newImplementation_) override virtual external {
         require(msg.sender == _admin(), "NTP:SI:NOT_ADMIN");
         _setAddress(IMPLEMENTATION_SLOT, newImplementation_);
     }
