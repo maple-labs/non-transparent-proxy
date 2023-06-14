@@ -5,8 +5,8 @@ import { INonTransparentProxy } from "./interfaces/INonTransparentProxy.sol";
 
 contract NonTransparentProxy is INonTransparentProxy {
 
-    bytes32 private constant ADMIN_SLOT          = bytes32(uint256(keccak256("eip1967.proxy.admin"))          - 1);
-    bytes32 private constant IMPLEMENTATION_SLOT = bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
+    bytes32 internal constant ADMIN_SLOT          = bytes32(uint256(keccak256("eip1967.proxy.admin"))          - 1);
+    bytes32 internal constant IMPLEMENTATION_SLOT = bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
 
     constructor(address admin_, address implementation_) {
         _setAddress(ADMIN_SLOT,          admin_);
@@ -19,7 +19,7 @@ contract NonTransparentProxy is INonTransparentProxy {
 
     function setImplementation(address newImplementation_) override virtual external {
         require(msg.sender == _admin(), "NTP:SI:NOT_ADMIN");
-        _setImplementation(newImplementation_);
+        _setAddress(IMPLEMENTATION_SLOT, newImplementation_);
     }
 
     /**************************************************************************************************************************************/
@@ -42,10 +42,6 @@ contract NonTransparentProxy is INonTransparentProxy {
         assembly {
             sstore(slot_, value_)
         }
-    }
-
-    function _setImplementation(address implementation_) internal {
-        _setAddress(IMPLEMENTATION_SLOT, implementation_);
     }
 
     function _getAddress(bytes32 slot_) private view returns (address value_) {
