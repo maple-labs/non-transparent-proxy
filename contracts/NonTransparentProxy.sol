@@ -38,7 +38,7 @@ contract NonTransparentProxy is INonTransparentProxy {
     /*** Utility Functions                                                                                                              ***/
     /**************************************************************************************************************************************/
 
-    function _setAddress(bytes32 slot_, address value_) private {
+    function _setAddress(bytes32 slot_, address value_) internal {
         assembly {
             sstore(slot_, value_)
         }
