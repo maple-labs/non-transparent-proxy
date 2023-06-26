@@ -5,8 +5,8 @@ import { INonTransparentProxy } from "./interfaces/INonTransparentProxy.sol";
 
 contract NonTransparentProxy is INonTransparentProxy {
 
-    bytes32 private constant ADMIN_SLOT          = bytes32(uint256(keccak256("eip1967.proxy.admin"))          - 1);
-    bytes32 private constant IMPLEMENTATION_SLOT = bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
+    bytes32 internal constant ADMIN_SLOT          = bytes32(uint256(keccak256("eip1967.proxy.admin"))          - 1);
+    bytes32 internal constant IMPLEMENTATION_SLOT = bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
 
     constructor(address admin_, address implementation_) {
         _setAddress(ADMIN_SLOT,          admin_);
@@ -38,13 +38,13 @@ contract NonTransparentProxy is INonTransparentProxy {
     /*** Utility Functions                                                                                                              ***/
     /**************************************************************************************************************************************/
 
-    function _setAddress(bytes32 slot_, address value_) private {
+    function _setAddress(bytes32 slot_, address value_) internal {
         assembly {
             sstore(slot_, value_)
         }
     }
 
-    function _getAddress(bytes32 slot_) private view returns (address value_) {
+    function _getAddress(bytes32 slot_) internal view returns (address value_) {
         assembly {
             value_ := sload(slot_)
         }
