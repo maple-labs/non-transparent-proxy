@@ -20,6 +20,8 @@ contract NonTransparentProxy is INonTransparentProxy {
     function setImplementation(address newImplementation_) override virtual external {
         require(msg.sender == _admin(), "NTP:SI:NOT_ADMIN");
         _setAddress(IMPLEMENTATION_SLOT, newImplementation_);
+
+        emit ImplementationSet(newImplementation_);
     }
 
     /**************************************************************************************************************************************/
